@@ -1,7 +1,7 @@
-﻿using System.Text;
-using System.Xml.Linq;
+﻿using System.Xml.Linq;
 using ecu_map_compare.Models;
 using ecu_map_compare.Services;
+using ecu_map_compare.Utils;
 
 namespace ecu_map_compare
 {
@@ -50,7 +50,7 @@ namespace ecu_map_compare
                 var baseMap = maps.FirstOrDefault();
                 if (baseMap == null || baseMap.EcuSettingsItem == null)
                 {
-                    Console.WriteLine("No maps or base map has no ECU items.");
+                    OutputHandler.PrintError("No maps or base map has no ECU items.");
                     return;
                 }
 
@@ -60,27 +60,38 @@ namespace ecu_map_compare
                     if (currentMap.EcuSettingsItem == null)
                         continue;
 
-                    Console.WriteLine($"Comparing '{baseMap.name}' with '{currentMap.name}':");
+                    OutputHandler.PrintComparingHeader(baseMap.name, currentMap.name);
 
+                    // Collect differences
+                    var diffs = new List<(string setting, string baseVal, string currVal)>();
                     foreach (var baseItem in baseMap.EcuSettingsItem)
                     {
                         var matchingItem = currentMap.EcuSettingsItem.FirstOrDefault(item =>
                             item.name == baseItem.name
                         );
 
+                        string baseValStr = baseItem.value?.ToString() ?? "";
                         if (matchingItem == null)
                         {
-                            Console.WriteLine(
-                                $"- '{baseItem.name}' missing in '{currentMap.name}'"
-                            );
+                            diffs.Add((baseItem.name, baseValStr, "missing"));
                         }
                         else if (baseItem.value != matchingItem.value)
                         {
-                            Console.WriteLine(
-                                $"- Difference in '{baseItem.name}': '{baseMap.name}' = {baseItem.value}, '{currentMap.name}' = {matchingItem.value}"
-                            );
+                            string currValStr = matchingItem.value?.ToString() ?? "";
+                            diffs.Add((baseItem.name, baseValStr, currValStr));
                         }
                     }
+
+                    if (!diffs.Any())
+                    {
+                        OutputHandler.PrintNoDifferences();
+                        continue;
+                    }
+
+                    // Sort by setting name
+                    diffs = diffs.OrderBy(d => d.setting).ToList();
+
+                    OutputHandler.PrintComparisonTable(baseMap.name, currentMap.name, diffs);
                 }
             }
         }
