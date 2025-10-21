@@ -12,24 +12,25 @@ internal class Program
     public class EcuSettingsItem
     {
         public string name = string.Empty;
-        public string? value;
+        public string value = "0";
     }
 
     public class DynamicTables { }
 
     private static void Main(string[] args)
     {
-        string map1Filename =
-            @"C:\Users\Matthew\source\repos\ecu_map_compare\ecu_map_compare\map1.MaxxECU-save";
-        string map2Filename =
-            @"C:\Users\Matthew\source\repos\ecu_map_compare\ecu_map_compare\map2.MaxxECU-save";
+        string[] mapFiles = InitialiseMaps();
 
         // Load maps
         var maps = new List<(string Name, XDocument xmlDoc)>();
         try
         {
-            maps.Add(("map1", LoadMap(map1Filename)));
-            maps.Add(("map2", LoadMap(map2Filename)));
+            foreach (var map in mapFiles)
+            {
+                var xmlDoc = LoadMap(map);
+                var mapName = Path.GetFileNameWithoutExtension(map);
+                maps.Add((mapName, xmlDoc));
+            }
         }
         catch (Exception ex)
         {
@@ -58,7 +59,7 @@ internal class Program
 
         static List<Map> LoadEcuSettingsItems(List<(string Name, XDocument xmlDoc)> maps)
         {
-            var tempList = new List<Map>();
+            List<Map> tempList = [];
 
             foreach (var (name, xmlDoc) in maps)
             {
@@ -76,5 +77,25 @@ internal class Program
 
             return tempList;
         }
+    }
+
+    // Collect all maps in /maps directory to a string array
+    private static string[] InitialiseMaps()
+    {
+        string? baseDirectory =
+            (Directory.GetParent(Environment.CurrentDirectory)?.Parent?.Parent?.FullName)
+            ?? throw new Exception("Failed to get current base directory.");
+
+        string mapsDirectory = Path.Combine(baseDirectory, "maps");
+
+        // If maps folder doesn't exist
+        if (!Directory.Exists(mapsDirectory))
+        {
+            System.IO.Directory.CreateDirectory(mapsDirectory);
+        }
+
+        // Get all map files in directory
+        string[] mapFiles = Directory.GetFiles(mapsDirectory, "*.MaxxECU-save");
+        return mapFiles;
     }
 }
