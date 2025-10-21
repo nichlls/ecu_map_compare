@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ecu_map_compare.Models
+﻿namespace ecu_map_compare.Models
 {
     public class EcuSettingsItem
     {
