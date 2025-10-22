@@ -28,5 +28,7 @@ namespace ecu_map_compare.Services
         /// <param name="maps">List of tuples containing map names and their corresponding XML documents</param>
         /// <returns>List of Map objects with populated ECU settings</returns>
         List<Map> LoadEcuSettingsItems(List<(string Name, XDocument xmlDoc)> maps);
+
+        void LoadXmlNodes(List<(string Name, XDocument xmlDoc)> maps);
     }
 }

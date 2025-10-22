@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using System.Xml;
 using System.Xml.Linq;
 using ecu_map_compare.Models;
 
@@ -78,6 +79,23 @@ namespace ecu_map_compare.Services
             }
 
             return tempList;
+        }
+
+        /// <summary>
+        /// Load all the unique XML nodes in the maps files.
+        /// </summary>
+        /// <param name="maps"></param>
+        public void LoadXmlNodes(List<(string Name, XDocument xmlDoc)> maps)
+        {
+            HashSet<XName> tempSet = [];
+
+            foreach (var (Name, xmlDoc) in maps)
+            {
+                foreach (var node in xmlDoc.Descendants())
+                {
+                    tempSet.Add(node.Name);
+                }
+            }
         }
     }
 }

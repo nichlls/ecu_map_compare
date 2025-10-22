@@ -44,7 +44,8 @@ namespace ecu_map_compare
             var mapList = new List<Map>();
             try
             {
-                mapList = mapService.LoadEcuSettingsItems(maps);
+                //mapList = mapService.LoadEcuSettingsItems(maps);
+                mapService.LoadXmlNodes(maps);
             }
             catch (Exception ex)
             {
