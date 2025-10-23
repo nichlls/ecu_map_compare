@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36603.0 d17.14
+VisualStudioVersion = 17.14.36603.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ecu_map_compare", "ecu_map_compare\ecu_map_compare.csproj", "{6AED23C6-76EB-45F0-8C32-3C132F358CAD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ecu_map_compare.tests", "ecu_map_compare.tests\ecu_map_compare.tests.csproj", "{2CA2376B-5A91-4079-B970-E61F177A5E10}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{6AED23C6-76EB-45F0-8C32-3C132F358CAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6AED23C6-76EB-45F0-8C32-3C132F358CAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6AED23C6-76EB-45F0-8C32-3C132F358CAD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2CA2376B-5A91-4079-B970-E61F177A5E10}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2CA2376B-5A91-4079-B970-E61F177A5E10}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2CA2376B-5A91-4079-B970-E61F177A5E10}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2CA2376B-5A91-4079-B970-E61F177A5E10}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
