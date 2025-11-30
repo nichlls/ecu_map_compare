@@ -110,8 +110,11 @@ namespace ecu_map_compare
                         continue;
                     }
 
-                    // Sort differences alphabetically by setting name
-                    diffs = diffs.OrderBy(d => d.setting).ToList();
+                    // Sort output, by whether current value is "missing", then alphabetically
+                    diffs = diffs
+                        .OrderBy(d => d.currVal == "missing" ? 1 : 0)
+                        .ThenBy(d => d.setting)
+                        .ToList();
 
                     // Display formatted comparison table
                     OutputHandler.PrintComparisonTable(baseMap.name, currentMap.name, diffs);
